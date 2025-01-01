@@ -21,16 +21,16 @@ excel_file = "Gateway_PB_Prior_Month.xlsx"
 sheet_names = pd.ExcelFile(excel_file).sheet_names
 
 # Read all sheets into a dictionary
-dfs = pd.read_excel(excel_file, sheet_name="Ad_Hoc", usecols="A:N", header=0).dropna()
+df = pd.read_excel(excel_file, sheet_name="Ad_Hoc", usecols="A:N", header=0).dropna()
 
 # --- STREAMLIT SIDEBAR ---
 with st.sidebar:
     st.markdown("### Filters for All Sheets")
 
-    all_departments = pd.concat([df["HAWB Department ID"] for df in dfs.values()]).unique().tolist()
-    all_chargeable_weights = pd.concat([df["HAWB Chargeable Kgs"] for df in dfs.values()]).unique().tolist()
-    all_house_destinations = pd.concat([df["House Destination"] for df in dfs.values()]).unique().tolist()
-    all_hawbs = pd.concat([df["SHP_HAWB/HBL"] for df in dfs.values()]).unique().tolist()
+    all_departments = pd(df["HAWB Department ID"]).unique().tolist()
+    all_chargeable_weights = pd(df["HAWB Chargeable Kgs"]).unique().tolist()
+    all_house_destinations = pd(df["House Destination"]).unique().tolist()
+    all_hawbs = pd(df["SHP_HAWB/HBL"]).unique().tolist()
 
     chargeable_weight_selection = st.slider(
         "Chargeable Weight:",
@@ -43,10 +43,10 @@ with st.sidebar:
     house_destinations_selection = st.multiselect("House Destination:", all_house_destinations, default=all_house_destinations)
 
 # Filter data for all sheets based on selection
-filtered_dfs = {}
+filtered_df = {}
 charts = []
 
-for df in dfs.items():
+for df in df.items():
     mask = (
         (df["HAWB Chargeable Kgs"].between(*chargeable_weight_selection))
         & (df["HAWB Department ID"].isin(department_selection))
